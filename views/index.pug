@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  img(
+    src="/images/logo-1376x300.png",
+    alt="The Your Trade Site Logo",
+    class="logo-img"
+  )
+  h1= "Welcome to Your Trade Site"
+  h2= "Enter your name and click next to begin"
+  form(method='POST' action='/login')
+      label(for='name' class='label') Name:
+      input(
+        type='text',
+        placeholder='Firstname',
+        name='name'
+      )
+      button(
+        type='submit',
+        name='next'
+      ) Next
