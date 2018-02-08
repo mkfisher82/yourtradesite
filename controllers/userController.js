@@ -38,16 +38,27 @@ exports.user_login = [
 
                 if (found_name) {
                     // Name exists, go to login page
-                    res.redirect('/welcome');
+                    res.redirect('/welcome/' + found_name._id);
                 }
                 else {
-                    user.save(function (err) {
+                    user.save(function (err, result) {
                         if (err) { return next(err); }
-                        // User saved. Redirect to welcome page.
-                        res.redirect('/welcome');
+                        // User saved.Redirect to welcome page for user.
+                        res.redirect('/welcome/' + result._id);
                     });
                 }
             });
         }
     }
 ];
+
+exports.user_welcome_get = function(req, res, next) {
+
+    User.findById(req.params.id)
+    .exec(function (err, results) {
+        if (err) { return next(err); }
+
+        res.render('welcome', { name: results.name } );
+    });
+
+};
