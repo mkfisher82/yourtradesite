@@ -1,7 +1,13 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+      title= title
+      link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+      img(
+        src="/images/logo-1376x300.png",
+        alt="The Your Trade Site Logo",
+        class="logo-img"
+      )
+      h1= "Welcome to Your Trade Site"
+      block content
