@@ -9,7 +9,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* POST login page. */
-router.post('/login', user_controller.user_login);
+/* POST home page. */
+router.post('/', user_controller.user_login );
+
+/* GET login page. */
+router.get('/welcome', function(req, res, next) {
+  res.render('welcome', { name: 'GET' });
+});;
 
 module.exports = router;

@@ -1,15 +1,15 @@
 extends layout
 
 block content
-  h2= "Enter your name and click next to begin"
-  form(method='POST' action='/login')
-      label(for='name' class='label') Name:
-      input(
-        type='text',
-        placeholder='Firstname',
-        name='name'
-      )
-      button(
-        type='submit',
-        name='next'
-      ) Next
+    h2= "Enter your name and click next to begin"
+    form(method='POST' action='')
+        label(for='name' class='label') Name:
+        input#name.form-control(type='text', placeholder='Firstname', name='name', value=(undefined===user ? '' : user.name))
+        button(
+            type='submit',
+            name='next'
+        ) Next
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
