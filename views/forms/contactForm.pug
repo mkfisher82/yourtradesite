@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+    h4= "Enter your details and click next"
+    
+    form(method='POST' action='')
+        
+        fieldset(name='contact_details')
+            legend Contact Details
+            label(for='address_street' class='label') Address:
+            input#name.form-control(type='text', placeholder='123 Fake St', name='address_street')
+                
+            label(for='address_suburb' class='label') Suburb:
+            input#name.form-control(type='text', placeholder='Taradale', name='address_suburb')
+                
+            label(for='address_city' class='label') City:
+            input#name.form-control(type='text', placeholder='Napier', name='address_city')
+                
+            label(for='contact_email' class='label') Email:
+            input#name.form-control(type='email', placeholder='someone@something.co.nz', name='contact_email')
+                
+            label(for='contact_phone' class='label') Phone:
+            input#name.form-control(type='tel', placeholder='02040636902', name='contact_phone')
+        
+        
+        button(type='submit', name='next') Next
+    
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+    h4= "Enter your details and click next"
+    
+    form(method='POST' action='')
+        
+        fieldset(name='business_details')
+            legend Business Details
+            label(for='business_name' class='label') Business name:
+            input#name.form-control(type='text', placeholder='Business name', name='business_name')
+                
+            label(for='business_slogan' class='label') Business slogan:
+            input#name.form-control(type='text', placeholder='Business slogan', name='business_slogan')
+                
+            label(for='owner_first_name' class='label') Owner first name:
+            input#name.form-control(type='text', placeholder='First name', name='owner_first_name')
+                
+            label(for='owner_last_name' class='label') Owner last name:
+            input#name.form-control(type='text', placeholder='Last name', name='owner_last_name')
+                
+            label(for='trade' class='label') Trade:
+            select(name='trade')
+                option Builder
+                option Plumber
+                option Roofer
+                option Electrician
+                
+            label(for='years_in_trade' class='label') Years in trade:
+            input#name.form-control(type='number', placeholder='10', name='years_in_trade')
+        
+        
+        button(type='submit', name='next') Next
+    
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

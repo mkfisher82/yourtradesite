@@ -58,7 +58,7 @@ exports.user_welcome_get = function(req, res, next) {
     .exec(function (err, results) {
         if (err) { return next(err); }
 
-        res.render('welcome', { name: results.name } );
+        res.render('welcome', { name: results.name, link: '/sitedata/client/' + req.params.id } );
     });
 
 };
