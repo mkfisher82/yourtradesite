@@ -42,12 +42,16 @@ exports.client_form_post = [
         const errors = validationResult(req);
 
         // Create a new object with escaped and trimmed data.
-        var client = {
-            client_first_name: req.body.client_first_name,
-            client_last_name: req.body.client_last_name,
-            client_email: req.body.client_email,
-            client_phone: req.body.client_phone
-        };
+        var siteData = new SiteData (
+            {
+                client_details: {
+                    client_first_name: req.body.client_first_name,
+                    client_last_name: req.body.client_last_name,
+                    client_email: req.body.client_email,
+                    client_phone: req.body.client_phone
+                }
+            }
+        );
 
         console.log('Created object');
 
@@ -63,7 +67,7 @@ exports.client_form_post = [
         }
         else {
             // Data from form is vaild. Save to db.
-            client.save(function (err) {
+            siteData.save(function (err) {
                 if (err) { return next(err); }
                 // Succesful - go to business form
                 res.redirect('/sitedata/business/' + req.params.id);

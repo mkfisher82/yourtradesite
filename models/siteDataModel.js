@@ -8,7 +8,7 @@ var clientDetailsSchema = new Schema(
         client_first_name: {type: String, required: true, max: 100},
         client_last_name: {type: String, required: true, max: 100},
         client_email: {type: String, required: true, max: 20},
-        client_phone: {type: Number, required: true, max: 10}
+        client_phone: {type: Number, required: true}
 
     }
 );
