@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h2= "Enter your details and click next"
+    
+    form(method='POST' action='')
+        
+        fieldset(name='client_details')
+            legend Client Details
+            label(for='client_name' class='label') Name:
+            input#name.form-control(type='text', placeholder='Firstname', name='client_name')
+        
+        fieldset(name='business_details')
+            legend Business Details
+            label(for='business_name' class='label') Name:
+            input#name.form-control(type='text', placeholder='Firstname', name='business_name')
+        
+        fieldset(name='contact_details')
+            legend Contact Details
+            label(for='contact_name' class='label') Name:
+            input#name.form-control(type='text', placeholder='Firstname', name='contact_name')
+        
+        
+        button(type='submit', name='next') Next
+    
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
