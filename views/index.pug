@@ -1,15 +1,20 @@
 extends layout
 
 block content
-    h2= "Enter your name and click next to begin"
+    p Already a member? Enter your email and let's go!
+    
     form(method='POST' action='')
-        label(for='name' class='label') Name:
-        input#name.form-control(type='text', placeholder='Firstname', name='name', value=(undefined===user ? '' : user.name))
-        button(
-            type='submit',
-            name='next'
-        ) Next
+        
+        label(for='client_email' class='label') Email:
+        input#name.form-control(type='email', placeholder='someone@example.com', name='client_email', value=(undefined===email ? '' : email.client_email))
+        
+        button(type='submit', name='sign_in', class='btn btn-primary') Sign-In
+    
+    p Looking to get started? Sign Up today!
+    
+    a(href='/sitedata/client', name='sign_up', class='btn btn-primary') Sign-Up
+    
     if errors
         ul
             for error in errors
-                li!= error.msg
+                li!= error

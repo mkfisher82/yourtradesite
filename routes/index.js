@@ -15,4 +15,7 @@ router.post('/', user_controller.user_login );
 /* GET welcome page. */
 router.get('/welcome/:id', user_controller.user_welcome_get );
 
+/* GET welcome back page. */
+router.get('/welcomeback/:id', user_controller.user_welcomeback_get );
+
 module.exports = router;

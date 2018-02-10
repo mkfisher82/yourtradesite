@@ -4,10 +4,20 @@ var router = express.Router();
 // Require controller modules
 var site_data_controller = require('../controllers/siteDataController');
 
-// GET request to display client details input form.
+router.get('/', function(req, res){
+    res.send('Basic sitedata page');
+});
+
+// GET request to display new  client details input form.
+router.get('/client', site_data_controller.client_form_get);
+
+// POST request for new client details input form.
+router.post('/client', site_data_controller.client_form_post);
+
+// GET request to display returning client details input form.
 router.get('/client/:id', site_data_controller.client_form_get);
 
-// POST request for client details input form.
+// POST request for returning client details input form.
 router.post('/client/:id', site_data_controller.client_form_post);
 
 // GET request to display business details input form.

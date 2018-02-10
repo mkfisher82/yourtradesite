@@ -9,16 +9,16 @@ block content
             legend Client Details
             
             label(for='client_first_name' class='label') First name:
-            input#name.form-control(type='text', placeholder='First name', name='client_first_name', value=(undefined===client ? '' : client.client_first_name))
+            input#name.form-control(type='text', placeholder='First name', name='client_first_name', value=(undefined===client ? '' : client.client_details.client_first_name))
                 
             label(for='client_last_name' class='label') Last name:
-            input#name.form-control(type='text', placeholder='Last name', name='client_last_name', value=(undefined===client ? '' : client.client_last_name))
+            input#name.form-control(type='text', placeholder='Last name', name='client_last_name', value=(undefined===client ? '' : client.client_details.client_last_name))
                 
             label(for='client_email' class='label') Email:
-            input#name.form-control(type='email', placeholder='someone@something.co.nz', name='client_email', value=(undefined===client ? '' : client.client_email))
+            input#name.form-control(type='email', placeholder='someone@example.co.nz', name='client_email', value=(undefined===client ? '' : client.client_details.client_email))
                 
             label(for='client_phone' class='label') Phone:
-            input#name.form-control(type='tel', placeholder='02040636902', name='client_phone', value=(undefined===client ? '' : client.client_phone))
+            input#name.form-control(type='tel', placeholder='02040636902', name='client_phone', value=(undefined===client ? '' : client.client_details.client_phone))
             
         
         button(type='submit', name='next') Next

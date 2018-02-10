@@ -8,7 +8,7 @@ var clientDetailsSchema = new Schema(
         client_first_name: {type: String, required: true, max: 100},
         client_last_name: {type: String, required: true, max: 100},
         client_email: {type: String, required: true, max: 20},
-        client_phone: {type: Number, required: true}
+        client_phone: {type: String, required: true, min:10, max: 11}
 
     }
 );
@@ -37,20 +37,20 @@ var addressSchema = new Schema(
 
 var contactDetailsSchema = new Schema(
     {
-        address: [ addressSchema ],
+        address: addressSchema,
         contact_email: {type: String, required: true, max: 20},
-        contact_phone: {type: Number, required: true, max: 10}
+        contact_phone: {type: String, required: true, min: 10, max: 11}
     }
 );
 
 // Schema for website data
 var SiteDataSchema = new Schema(
     {
-        client_details: [ clientDetailsSchema ],
+        client_details: clientDetailsSchema,
 
-        business_details: [ businessDetailsSchema ],
+        business_details: businessDetailsSchema,
 
-        contact_details: [ contactDetailsSchema ]
+        contact_details: contactDetailsSchema
 
     }
 );

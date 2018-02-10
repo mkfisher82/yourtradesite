@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var SiteData = require('../models/siteDataModel');
 var mongoose = require('mongoose');
 
 // express.validator modules
@@ -9,43 +9,41 @@ const { sanitizeBody } = require('express-validator/filter');
 exports.user_login = [
 
     // Validate that the name field is not empty.
-    body('name', 'Name must be 3 or more letters. Please re-enter your name').isLength({ min: 3}).trim(),
+    body('client_email', 'Please enter a valid email').isEmail().trim(),
 
     // Sanitize (trim and escape) the name field.
-    sanitizeBody('name').trim().escape(),
+    sanitizeBody('client_email').trim().escape(),
 
     //Process request after validation and sanitization
     function (req, res, next) {
         // Extract the validation errors from a request
         const errors = validationResult(req);
 
-        // Create a genre object with escaped and trimmed data
-        var user = new User(
-            { name: req.body.name }
+        // Create a siteData object with escaped and trimmed data
+        var siteData = new SiteData (
+            { client_email: req.body.client_email }
         );
 
         if (!errors.isEmpty()) {
             // There are Errors. Render the form again with sanitized values/errors messages.
-            res.render('index', { title: 'Welcome to YTS', user: user, errors: errors.array()});
+            res.render('index', { title: 'Welcome to YTS', email: siteData, errors: errors.array()});
         return;
         }
         else {
             // Data from form is valid.
-            // Check if Genre with same name already exists.
-            User.findOne({ 'name': req.body.name })
-            .exec( function (err, found_name) {
+            // Check if client email exists in db.
+            SiteData.findOne( { 'client_details.client_email': req.body.client_email } )
+            .exec( function (err, found_email) {
                 if (err) { return next(err); }
 
-                if (found_name) {
-                    // Name exists, go to login page
-                    res.redirect('/welcome/' + found_name._id);
+                if (!found_email) {
+                    // Email not in db. Prompt new email or sign up
+                    let errormsg = ["This email is not registered. Please check the email or sign up"];
+                    res.render('index', { title: 'Welcome to YTS', email: siteData, errors: errormsg });
                 }
                 else {
-                    user.save(function (err, result) {
-                        if (err) { return next(err); }
-                        // User saved.Redirect to welcome page for user.
-                        res.redirect('/welcome/' + result._id);
-                    });
+                    // Email exists. Go to client details form with id
+                        res.redirect('/sitedata/client/' + found_email._id);
                 }
             });
         }
@@ -53,6 +51,17 @@ exports.user_login = [
 ];
 
 exports.user_welcome_get = function(req, res, next) {
+
+    User.findById(req.params.id)
+    .exec(function (err, results) {
+        if (err) { return next(err); }
+
+        res.render('welcome', { name: results.name, link: '/sitedata/client/' + req.params.id } );
+    });
+
+};
+
+exports.user_welcomeback_get = function(req, res, next) {
 
     User.findById(req.params.id)
     .exec(function (err, results) {

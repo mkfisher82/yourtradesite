@@ -7,8 +7,25 @@ const { sanitizeBody } = require('express-validator/filter');
 
 // Client details form controllers
 exports.client_form_get = function(req, res, next) {
+
+    if (req.params.id!==undefined) { // Existing client so populate fields
+
+        // findById to get fields
+        SiteData.findById(req.params.id)
+        .exec(function(err, client_data) {
+            if (err) {return next(err); }
+
+            // Render form with existing client data
+            res.render('forms/clientForm', { title: 'Client Input Form', client: client_data } );
+
+        })
+
+    }
+    else {
         res.render('forms/clientForm', { title: 'Client Input Form' } );
+    }
 };
+
 
 exports.client_form_post = [
 
@@ -22,11 +39,6 @@ exports.client_form_post = [
     body('client_last_name', 'Error please fix').isLength({ min: 1 }).trim(),
     body('client_email', 'Error please fix').isEmail().trim(),
     body('client_phone', 'Error please fix').isNumeric().isLength({min: 10, max: 11}).trim(),
-
-    function(req, res, next){
-        console.log('Validated fields');
-        return next();
-    },
 
     // Sanitize fields (using wildcard).
     sanitizeBody('*').trim().escape(),
@@ -44,6 +56,8 @@ exports.client_form_post = [
         // Create a new object with escaped and trimmed data.
         var siteData = new SiteData (
             {
+                _id:req.params.id, //This is required, or a new ID will be assigned!
+
                 client_details: {
                     client_first_name: req.body.client_first_name,
                     client_last_name: req.body.client_last_name,
@@ -52,8 +66,6 @@ exports.client_form_post = [
                 }
             }
         );
-
-        console.log('Created object');
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values and error messages
@@ -66,12 +78,24 @@ exports.client_form_post = [
             });
         }
         else {
-            // Data from form is vaild. Save to db.
-            siteData.save(function (err) {
-                if (err) { return next(err); }
-                // Succesful - go to business form
-                res.redirect('/sitedata/business/' + req.params.id);
-            });
+            // Data from form is valid. Save or Update the record.
+
+            if (req.params.id===undefined){ // Create new document
+                siteData.save( function(err, doc) {
+                    if (err) { return next(err); }
+                    // Successful  - go to business details form with id
+                    console.log(doc._id);
+                    res.redirect('/sitedata/business/' + doc._id);
+                });
+            }
+            else {
+                SiteData.findByIdAndUpdate(req.params.id, siteData, {upsert: true}, function (err) {
+                    if (err) { return next(err); }
+                        // Succesful - go to business form
+                        res.redirect('/sitedata/business/' + req.params.id);
+                    }
+                );
+            }
         }
     }
 ];
