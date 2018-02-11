@@ -22,8 +22,12 @@ block content
             
         
         button(type='submit', name='next') Next
+        
+    button(type='button', class='btn btn-danger btn-publish', id="publish" ) Publish
     
     if errors
         ul
             for error in errors
                 li!= error.msg
+                
+    script(type="text/javascript", src="/controllers/publishController.js")           

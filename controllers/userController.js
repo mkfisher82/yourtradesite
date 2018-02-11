@@ -1,5 +1,6 @@
 var SiteData = require('../models/siteDataModel');
 var mongoose = require('mongoose');
+var fs = require('fs');
 
 // express.validator modules
 const { body, validationResult } = require('express-validator/check');
@@ -71,3 +72,29 @@ exports.user_welcomeback_get = function(req, res, next) {
     });
 
 };
+
+exports.publish_get = function(req, res, next) {
+    console.log('Recieved a get request to publish');
+
+    // Check for user id in req.params.id
+    if (req.params.id) {
+        // findById to get all site data for user
+        SiteData.findById(req.params.id)
+        .exec( function(err, result) {
+            if (err) throw err;
+            //Successful - write JSON data to file
+            let data = JSON.stringify(result, null, 2);
+
+            fs.writeFile('./locals/' + req.params.id + '.json', data, function(err) {
+                if (err) throw err;
+
+                console.log('Data written to file successfully');
+            });
+        });
+
+    }
+    else {
+        console.log("No id in request")
+        res.end();
+    }
+}

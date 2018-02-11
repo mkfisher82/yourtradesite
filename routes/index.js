@@ -18,4 +18,7 @@ router.get('/welcome/:id', user_controller.user_welcome_get );
 /* GET welcome back page. */
 router.get('/welcomeback/:id', user_controller.user_welcomeback_get );
 
+/* GET publish */
+router.get('/publish/:id', user_controller.publish_get);
+
 module.exports = router;

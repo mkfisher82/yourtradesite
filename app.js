@@ -33,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/sitedata', siteData);
+app.use('/controllers', express.static(process.cwd() + '/controllers'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
