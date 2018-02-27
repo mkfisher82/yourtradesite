@@ -1,4 +1,5 @@
 var SiteData = require('../models/siteDataModel');
+var ServiceFeature = require('../models/serviceFeatureModel');
 var mongoose = require('mongoose');
 var fs = require('fs');
 
@@ -97,4 +98,31 @@ exports.publish_get = function(req, res, next) {
         console.log("No id in request")
         res.end();
     }
+}
+
+exports.why_use_us_get = function(req, res, next) {
+    ServiceFeature.find({}, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        res.render('forms/serviceFeaturesForm', {results: results});
+    });
+}
+
+exports.why_use_us_post = function(req, res, next) {
+    var serviceFeaturesTitleArray = [];
+    var serviceFeaturesBodyArray = [];
+
+    // get title and body of chosen features are store in array
+    for (var i = 0; i < req.body.serviceFeatures.length; i++) {
+        var value = req.body.serviceFeatures[i];
+        var data = JSON.parse(value);
+        serviceFeaturesTitleArray.push(data.title);
+        serviceFeaturesBodyArray.push(data.body);
+    }
+    console.log(serviceFeaturesTitleArray);
+    console.log(serviceFeaturesBodyArray);
+
+    // add to user and save to db
+    
+    res.end(serviceFeaturesTitleArray[2]);
 }

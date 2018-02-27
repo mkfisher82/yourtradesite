@@ -1,1 +1,3 @@
 node_modules/
+.env
+yts-wintersmith-template

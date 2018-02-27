@@ -18,3 +18,24 @@ button {
 .logo-img {
     max-width: 70%;
 }
+
+.service-feature {
+  width: 95%;
+  min-width: 140px;
+  display: inline-block;
+  overflow: hidden;
+  box-sizing: border-box;
+  vertical-align: top;
+  padding: 10px 10px 0px 10px; }
+
+.fas.fa-wrench {
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  display: inline-block;
+  font-size: 1.5em;
+  color: #d46b15;
+  padding-right: 3px; }
+
+.service-feature p {
+  font-size: 0.85em; }

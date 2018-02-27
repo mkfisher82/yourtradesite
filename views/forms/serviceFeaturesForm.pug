@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        link(rel="stylesheet", href="/stylesheets/style.css", type='text/css')
+        script(defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js") 
+    
+    body
+        include ../../yts-wintersmith-template/templates/partials/why-use-us.jade
+
+        h1 This is the service features form
+        
+        form(action="", method="post")
+            fieldset
+                legend Select the benefits that set you apart from the competition:
+                
+                - for (var i=0; i < results.length; i++)
+                    input(type="checkbox", name="serviceFeatures", value='{"title":"' + results[i].title + '","body":"' +results[i].body +'"}')
+                    +feature(results[i].title, results[i].body).service-feature
+                    
+                button(type="submit").btn.btn-primary Submit Form

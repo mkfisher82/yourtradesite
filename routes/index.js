@@ -21,4 +21,10 @@ router.get('/welcomeback/:id', user_controller.user_welcomeback_get );
 /* GET publish */
 router.get('/publish/:id', user_controller.publish_get);
 
+/* GET service-feature */
+router.get('/why-use-us', user_controller.why_use_us_get);
+
+/* GET service-feature */
+router.post('/why-use-us', user_controller.why_use_us_post);
+
 module.exports = router;

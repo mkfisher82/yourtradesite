@@ -43,6 +43,14 @@ var contactDetailsSchema = new Schema(
     }
 );
 
+var serviceFeaturesSchema = new Schema(
+    {
+        preamble: {type: String, required: true},
+        title: {type: String, required: true, max: 20},
+        body: {type: String, required: true, max: 255}
+    }
+)
+
 // Schema for website data
 var SiteDataSchema = new Schema(
     {
@@ -50,7 +58,9 @@ var SiteDataSchema = new Schema(
 
         business_details: businessDetailsSchema,
 
-        contact_details: contactDetailsSchema
+        contact_details: contactDetailsSchema,
+
+        service_features: serviceFeaturesSchema
 
     }
 );
