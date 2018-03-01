@@ -8,26 +8,26 @@ block content
         fieldset(name='business_details')
             legend Business Details
             label(for='business_name' class='label') Business name:
-            input#name.form-control(type='text', placeholder='Business name', name='business_name')
+            input#name.form-control(type='text', placeholder='Business name', name='business_name', value=(undefined===client ? '' : client.business_details.business_name))
                 
             label(for='business_slogan' class='label') Business slogan:
-            input#name.form-control(type='text', placeholder='Business slogan', name='business_slogan')
+            input#name.form-control(type='text', placeholder='Business slogan', name='business_slogan', value=(undefined===client ? '' : client.business_details.business_slogan))
                 
             label(for='owner_first_name' class='label') Owner first name:
-            input#name.form-control(type='text', placeholder='First name', name='owner_first_name')
+            input#name.form-control(type='text', placeholder='First name', name='owner_first_name', value=(undefined===client ? '' : client.business_details.owner_first_name))
                 
             label(for='owner_last_name' class='label') Owner last name:
-            input#name.form-control(type='text', placeholder='Last name', name='owner_last_name')
+            input#name.form-control(type='text', placeholder='Last name', name='owner_last_name', value=(undefined===client ? '' : client.business_details.owner_last_name))
                 
             label(for='trade' class='label') Trade:
-            select(name='trade')
+            select(name='trade', value=(undefined===client ? '' : client.business_details.trade)) // TODO display from db. Pass in from controller
                 option Builder
                 option Plumber
                 option Roofer
                 option Electrician
                 
             label(for='years_in_trade' class='label') Years in trade:
-            input#name.form-control(type='number', placeholder='10', name='years_in_trade')
+            input#name.form-control(type='number', placeholder='10', name='years_in_trade', value=(undefined===client ? '' : client.business_details.years_in_trade))
         
         
         button(type='submit', name='next') Next

@@ -3,28 +3,50 @@ var router = express.Router();
 
 // Require controller modules
 var user_controller = require('../controllers/userController');
+var passport_controller = require('../controllers/passportController');
+var common_passport = require('../common/common');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
-/* POST home page. */
-router.post('/', user_controller.user_login );
+module.exports = function(passport) {
+    router.get('/', common_passport.isAuthenticated, function(req, res, next) {
+        console.log(req.session),
+        res.render('index', { title: 'Express' });
+    });
 
-/* GET welcome page. */
-router.get('/welcome/:id', user_controller.user_welcome_get );
+    /* POST home page. */
+    router.post('/', user_controller.user_login );
 
-/* GET welcome back page. */
-router.get('/welcomeback/:id', user_controller.user_welcomeback_get );
+    /* GET publish */
+    router.get('/publish/:id', user_controller.publish_get);
 
-/* GET publish */
-router.get('/publish/:id', user_controller.publish_get);
+    router.get('/home', passport_controller(passport).get_home);
 
-/* GET service-feature */
-router.get('/why-use-us', user_controller.why_use_us_get);
+    router.get('/auth/github', passport_controller(passport).auth_github);
 
-/* GET service-feature */
-router.post('/why-use-us', user_controller.why_use_us_post);
+    router.get('/auth/github/callback', passport_controller(passport).auth_github_callback);
 
-module.exports = router;
+    router.get('/auth/facebook', passport_controller(passport).auth_facebook);
+
+    router.get('/auth/facebook/callback', passport_controller(passport).auth_facebook_callback);
+
+    // send to facebook to do the authentication
+    router.get('/connect/facebook', passport.authorize('facebook', {
+      scope : ['public_profile', 'email']
+    }));
+
+    router.get('/login', function(req, res) {
+    	res.render('login', { title: 'Your Trade Site' });
+    });
+
+    router.get('/failure', function(req, res) {
+        res.render('failure');
+    });
+
+    router.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    })
+
+
+	return router;
+}

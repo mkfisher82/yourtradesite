@@ -1,20 +1,6 @@
 extends layout
 
 block content
-    p Already a member? Enter your email and let's go!
+    h4 Thank's for signing in
     
-    form(method='POST' action='')
-        
-        label(for='client_email' class='label') Email:
-        input#name.form-control(type='email', placeholder='someone@example.com', name='client_email', value=(undefined===email ? '' : email.client_email))
-        
-        button(type='submit', name='sign_in', class='btn btn-primary') Sign-In
-    
-    p Looking to get started? Sign Up today!
-    
-    a(href='/sitedata/client', name='sign_up', class='btn btn-primary') Sign-Up
-    
-    if errors
-        ul
-            for error in errors
-                li!= error
+    a(href="/sitedata/client" class="btn btn-primary") Let's Go
