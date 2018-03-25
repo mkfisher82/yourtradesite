@@ -165,7 +165,7 @@ exports.business_form_post = [
                 SiteData.findByIdAndUpdate(req.session.passport.user, siteData, {upsert: true}, function (err) {
                     if (err) { return next(err); }
                         // Succesful - go to service features form
-                        res.redirect('/sitedata/why-use-us');
+                        res.redirect('/sitedata/contact');
                     }
                 );
             }
@@ -178,33 +178,143 @@ exports.contact_form_get = function(req, res, next) {
         res.render('forms/contactForm', { title: 'Contact Details Input Form' } );
 };
 
-exports.contact_form_post = function(req, res, next) {
-        res.redirect('/sitedata/client/' + req.params.id);
-};
+exports.contact_form_post = [
 
+    common_passport.isAuthenticated,
+
+    // Validate fields
+    body('address_street', 'Street address is required').isLength({ min: 1 }).trim(),
+    body('address_suburb', 'Street suburb is required').isLength({ min: 1 }).trim(), // TODO is this really required?
+    body('address_city', 'Street city is required').isLength({ min: 1 }).trim(),
+    body('contact_email', 'Please enter a valid email address').isEmail().trim(),
+    body('contact_phone', 'Please enter a phone number').isNumeric().isLength({min: 10, max: 11}).trim(),
+
+    // Sanitize fields (using wildcard).
+    sanitizeBody('*').trim().escape(),
+
+    function(req, res, next){
+        console.log('Sanitized fields');
+        return next();
+    },
+
+    // Process request after validation and sanitization
+    function(req, res, next) {
+        // Extract the validation errors from a request
+        const errors = validationResult(req);
+
+        // Create a new object with escaped and trimmed data.
+        var siteData = new SiteData (
+            {
+                _id:req.session.passport.user, //This is required, or a new ID will be assigned!
+
+                contact_details: {
+                    address: {
+                        street: req.body.address_street,
+                        suburb: req.body.address_suburb,
+                        city: req.body.address_city
+                    },
+                    contact_email: req.body.contact_email,
+                    contact_phone: req.body.contact_phone
+                }
+            }
+        );
+        console.log('Created siteData');
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values and error messages
+            res.render('forms/contactForm',
+            {
+                title: 'Contact Details Input Form',
+                client: siteData,
+                errors: errors.array()
+            });
+        }
+        else {
+            // Data from form is valid. Save or Update the record.
+
+            if (req.session.passport.user===undefined){ // Create new document
+                console.log('User no longer logged in');
+                res.redirect('/login');
+            }
+            else {
+                SiteData.findByIdAndUpdate(req.session.passport.user, siteData, {upsert: true}, function (err) {
+                    if (err) { return next(err); }
+                        // Succesful - go to service features form
+                        res.redirect('/sitedata/why-use-us');
+                    }
+                );
+            }
+        }
+    }
+];
+
+//Why use us form controllers
 exports.why_use_us_get = function(req, res, next) {
     ServiceFeature.find({}, function(err, results) {
         if (err) throw err;
-        console.log(results);
         res.render('forms/serviceFeaturesForm', {results: results});
     });
 }
 
-exports.why_use_us_post = function(req, res, next) {
-    var serviceFeaturesTitleArray = [];
-    var serviceFeaturesBodyArray = [];
-
-    // get title and body of chosen features are store in array
-    for (var i = 0; i < req.body.serviceFeatures.length; i++) {
-        var value = req.body.serviceFeatures[i];
-        var data = JSON.parse(value);
-        serviceFeaturesTitleArray.push(data.title);
-        serviceFeaturesBodyArray.push(data.body);
-    }
-    console.log(serviceFeaturesTitleArray);
-    console.log(serviceFeaturesBodyArray);
+exports.why_use_us_post = [
 
     // add to user and save to db
+    common_passport.isAuthenticated,
 
-    res.end(serviceFeaturesTitleArray[2]);
-}
+    // Validate fields
+    // Sanitize fields (using wildcard).
+    // Not required
+
+    // Process request after validation and sanitization
+    function(req, res, next) {
+        // Extract the validation errors from a request
+        const errors = validationResult(req);
+
+        // Convert selection to arrays
+        var serviceFeaturesTitleArray = [];
+        var serviceFeaturesBodyArray = [];
+
+        // get title and body of chosen features are stored in array
+        for (var i = 0; i < req.body.serviceFeatures.length; i++) {
+            var value = req.body.serviceFeatures[i];
+            var data = JSON.parse(value);
+            serviceFeaturesTitleArray.push(data.title);
+            serviceFeaturesBodyArray.push(data.body);
+        }
+
+        // Create a new object with escaped and trimmed data.
+        var siteData = new SiteData (
+            {
+                _id:req.session.passport.user, //This is required, or a new ID will be assigned!
+
+                service_features: {
+                    title: serviceFeaturesTitleArray,
+                    body: serviceFeaturesBodyArray
+                }
+            }
+        );
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values and error messages
+            ServiceFeature.find({}, function(err, results) {
+                if (err) throw err;
+                res.render('forms/serviceFeaturesForm', {results: results, errors: errors.array()});
+            });
+        }
+        else {
+            // Data from form is valid. Save or Update the record.
+
+            if (req.session.passport.user===undefined){ // Create new document
+                console.log('User no longer logged in');
+                res.redirect('/login');
+            }
+            else {
+                SiteData.findByIdAndUpdate(req.session.passport.user, siteData, {upsert: true}, function (err) {
+                    if (err) { return next(err); }
+                        // Successful
+                        res.redirect('/sitedata/client');
+                    }
+                );
+            }
+        }
+    }
+];

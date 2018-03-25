@@ -1,4 +1,4 @@
-extends ../layout
+extends ./layoutForm
 
 block content
     h4= "Enter your details and click next"
@@ -6,7 +6,8 @@ block content
     form(method='POST' action='')
         
         fieldset(name='contact_details')
-            legend Contact Details
+            legend Enter the Contact Details of your business
+            
             label(for='address_street' class='label') Address:
             input#name.form-control(type='text', placeholder='123 Fake St', name='address_street')
                 
@@ -23,7 +24,7 @@ block content
             input#name.form-control(type='tel', placeholder='02040636902', name='contact_phone')
         
         
-        button(type='submit', name='next') Next
+        button(type='submit', name='next' class="btn" id="btn-next") Next
     
     if errors
         ul

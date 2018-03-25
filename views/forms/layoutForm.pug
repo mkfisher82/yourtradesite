@@ -1,0 +1,37 @@
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/layout-form.css')
+  body
+    div(class="header")
+      img(src="/images/logo-459x100.png" id="logo")
+      
+    div(class="content")
+      div(class="sidebar")
+        ul(class="list")
+          li(class="item")
+              a(href="/sitedata/client") User Details
+          li(class="item")
+              a(href="/sitedata/business") Business Details
+          li(class="item")
+              a(href="/sitedata/contact") Contact Details
+          li(class="item")
+              a(href="/sitedata/who-we-are") Who We Are
+          li(class="item")
+              a(href="/sitedata/what-we-do") What We Do
+          li(class="item")
+              a(href="/sitedata/where-we-service") Where We Service
+          li(class="item")
+              a(href="/sitedata/why-use-us") Why Use Us
+          li(class="item")
+              a(href="/sitedata/certifications") Certifications
+          li(class="item")
+              a(href="/design") Design
+      div(class="block-content")
+        block content
+    
+    div(class="buttons")
+      a(class="btn" id="btn-preview") Preview
+      a(class="btn" id="btn-save") Save & Continue
+
+    

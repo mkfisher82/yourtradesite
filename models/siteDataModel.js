@@ -25,7 +25,7 @@ var SiteDataSchema = new Schema(
 
         contact_details: {
             address: {
-                street: {type: Number, required: true},
+                street: {type: String, required: true},
                 suburb: {type: String, required: true, max: 20},
                 city: {type: String, required: true, max: 20}
             },
@@ -34,9 +34,9 @@ var SiteDataSchema = new Schema(
         },
 
         service_features: {
-            preamble: {type: String, required: true},
-            title: {type: String, required: true, max: 20},
-            body: {type: String, required: true, max: 255}
+            // preamble: {type: String, required: true},
+            title: {type: Array, required: true},
+            body: {type: Array, required: true}
         },
 
         github: {

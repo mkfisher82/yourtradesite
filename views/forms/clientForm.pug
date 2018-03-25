@@ -1,4 +1,4 @@
-extends ../layout
+extends ./layoutForm
 
 block content
     h4= "Enter your details and click next"
@@ -19,11 +19,8 @@ block content
                 
             label(for='client_phone' class='label') Phone:
             input#name.form-control(type='tel', placeholder='02040636902', name='client_phone', value=(undefined===client ? '' : client.client_details.client_phone))
-            
-        
-        button(type='submit', name='next') Next
-        
-    button(type='button', class='btn btn-danger btn-publish', id="publish" ) Publish
+                
+        button(type='submit', name='next' class="btn" id="btn-next") Next
     
     if errors
         ul

@@ -1,4 +1,4 @@
-extends ../layout
+extends ./layoutForm
 
 block content
     h4= "Enter your details and click next"
@@ -30,7 +30,7 @@ block content
             input#name.form-control(type='number', placeholder='10', name='years_in_trade', value=(undefined===client ? '' : client.business_details.years_in_trade))
         
         
-        button(type='submit', name='next') Next
+        button(type='submit', name='next' class="btn" id="btn-next") Next
     
     if errors
         ul
