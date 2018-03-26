@@ -98,7 +98,6 @@ exports.business_form_get = [
         SiteData.findById(req.session.passport.user)
         .exec(function(err, client_data) {
             if (err) {return next(err); }
-            console.log(client_data);
             // Render form with existing client data
             res.render('forms/businessForm', { title: 'Business Input Form', client: client_data } );
         })
@@ -174,9 +173,28 @@ exports.business_form_post = [
 ];
 
 // Contact details form controllers
-exports.contact_form_get = function(req, res, next) {
-        res.render('forms/contactForm', { title: 'Contact Details Input Form' } );
-};
+exports.contact_form_get = [
+    common_passport.isAuthenticated,
+
+    // findById to get fields
+    function(req, res, next) {
+        SiteData.findById(req.session.passport.user)
+        .exec(function(err, client_data) {
+            if (err) {return next(err); }
+            req.body.client_data = client_data;
+            next();
+        })
+    },
+
+    sanitizeBody('client_data.contact_details.address.street').trim().unescape(),
+
+    // render page
+    function(req, res, next) {
+        // Render form with existing client data
+        res.render('forms/contactForm', { title: 'Contact Details Input Form', client: req.body.client_data } );
+    }
+
+]
 
 exports.contact_form_post = [
 
@@ -184,18 +202,13 @@ exports.contact_form_post = [
 
     // Validate fields
     body('address_street', 'Street address is required').isLength({ min: 1 }).trim(),
-    body('address_suburb', 'Street suburb is required').isLength({ min: 1 }).trim(), // TODO is this really required?
-    body('address_city', 'Street city is required').isLength({ min: 1 }).trim(),
+    body('address_suburb', 'Suburb is required').isLength({ min: 1 }).trim(), // TODO is this really required?
+    body('address_city', 'City is required').isLength({ min: 1 }).trim(),
     body('contact_email', 'Please enter a valid email address').isEmail().trim(),
     body('contact_phone', 'Please enter a phone number').isNumeric().isLength({min: 10, max: 11}).trim(),
 
     // Sanitize fields (using wildcard).
     sanitizeBody('*').trim().escape(),
-
-    function(req, res, next){
-        console.log('Sanitized fields');
-        return next();
-    },
 
     // Process request after validation and sanitization
     function(req, res, next) {
@@ -218,7 +231,7 @@ exports.contact_form_post = [
                 }
             }
         );
-        console.log('Created siteData');
+
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values and error messages
             res.render('forms/contactForm',
@@ -247,7 +260,7 @@ exports.contact_form_post = [
     }
 ];
 
-//Why use us form controllers
+// Why use us form controllers
 exports.why_use_us_get = function(req, res, next) {
     ServiceFeature.find({}, function(err, results) {
         if (err) throw err;

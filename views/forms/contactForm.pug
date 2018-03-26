@@ -9,19 +9,19 @@ block content
             legend Enter the Contact Details of your business
             
             label(for='address_street' class='label') Address:
-            input#name.form-control(type='text', placeholder='123 Fake St', name='address_street')
+            input#name.form-control(type='text', placeholder='123 Fake St', name='address_street', value=(undefined===client ? '' : client.contact_details.address.street))
                 
             label(for='address_suburb' class='label') Suburb:
-            input#name.form-control(type='text', placeholder='Taradale', name='address_suburb')
+            input#name.form-control(type='text', placeholder='Taradale', name='address_suburb', value=(undefined===client ? '' : client.contact_details.address.suburb))
                 
             label(for='address_city' class='label') City:
-            input#name.form-control(type='text', placeholder='Napier', name='address_city')
+            input#name.form-control(type='text', placeholder='Napier', name='address_city', value=(undefined===client ? '' : client.contact_details.address.city))
                 
             label(for='contact_email' class='label') Email:
-            input#name.form-control(type='email', placeholder='someone@something.co.nz', name='contact_email')
+            input#name.form-control(type='email', placeholder='someone@something.co.nz', name='contact_email', value=(undefined===client ? '' : client.contact_details.contact_email))
                 
             label(for='contact_phone' class='label') Phone:
-            input#name.form-control(type='tel', placeholder='02040636902', name='contact_phone')
+            input#name.form-control(type='tel', placeholder='02040636902', name='contact_phone', value=(undefined===client ? '' : client.contact_details.contact_phone))
         
         
         button(type='submit', name='next' class="btn" id="btn-next") Next
