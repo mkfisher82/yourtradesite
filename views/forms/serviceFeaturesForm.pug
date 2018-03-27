@@ -9,11 +9,12 @@ block content
     h4= "Enter your details and click next"
     
     form(action="", method="post")
-        fieldset
+        fieldset(class="service-feature-form")
             legend Select the benefits that set you apart from the competition:
             
             - for (var i=0; i < results.length; i++)
-                input(type="checkbox", name="serviceFeatures", value='{"title":"' + results[i].title + '","body":"' +results[i].body +'"}')
-                +feature(results[i].title, results[i].body).service-feature
+                div(class="service-feature-container")
+                    input(type="checkbox", name="serviceFeatures", value='{"title":"' + results[i].title + '","body":"' +results[i].body +'"}')
+                    +feature(results[i].title, results[i].body).service-feature
                 
-            button(type='submit', name='next' class="btn" id="btn-next") Next
+        button(type='submit', name='next' class="btn" id="btn-next") Next

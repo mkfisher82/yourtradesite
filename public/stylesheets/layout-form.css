@@ -92,6 +92,15 @@ input {
     margin: 6px 0;
 }
 
+.service-feature-form {
+    display: grid;
+}
+
+.service-feature-container {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+}
+
 .service-feature {
   min-width: 140px;
   display: block;
@@ -99,6 +108,8 @@ input {
   vertical-align: top;
   padding: 10px 10px 0px 10px;
 }
+
+
 
 /* .fas.fa-wrench {
   font-style: normal;
