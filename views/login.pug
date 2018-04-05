@@ -1,13 +1,11 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
   
   div
-      a(href="/auth/github") Sign in with GitHub
+      a(href="/auth/github" class="btn btn-dark") Sign in with GitHub
   div
-      a(href="/auth/facebook") Sign in with Facebook
+      a(href="/auth/facebook" class="btn btn-primary") Sign in with Facebook
       
 
 

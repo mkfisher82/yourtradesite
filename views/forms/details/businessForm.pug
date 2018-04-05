@@ -1,0 +1,44 @@
+extends ../layoutForm
+
+block content
+    h3= "Enter your details and click next"
+    
+    form(method='POST' action='')
+        
+        fieldset(name='business_details')
+            legend Business Details
+            div.form-group
+                label(for='business_name') Business name:
+                input.form-control(type='text', placeholder='Business name', name='business_name', value=(undefined===client ? '' : client.business_details.business_name))
+            
+            div.form-group    
+                label(for='business_slogan') Business slogan:
+                input.form-control(type='text', placeholder='Business slogan', name='business_slogan', value=(undefined===client ? '' : client.business_details.business_slogan))
+            
+            div.form-group    
+                label(for='owner_first_name') Owner first name:
+                input.form-control(type='text', placeholder='First name', name='owner_first_name', value=(undefined===client ? '' : client.business_details.owner_first_name))
+            
+            div.form-group    
+                label(for='owner_last_name') Owner last name:
+                input.form-control(type='text', placeholder='Last name', name='owner_last_name', value=(undefined===client ? '' : client.business_details.owner_last_name))
+                
+            div.form-group
+                label(for='trade') Trade:
+                select.form-control(name='trade', value=(undefined===client ? '' : client.business_details.trade)) // TODO display from db. Pass in from controller
+                    option Builder
+                    option Plumber
+                    option Roofer
+                    option Electrician
+                    
+            div.form-group    
+                label(for='years_in_trade') Years in trade:
+                input.form-control(type='number', placeholder='10', name='years_in_trade', value=(undefined===client ? '' : client.business_details.years_in_trade))
+        
+        
+        button(type='submit', name='next' class="btn" id="btn-next") Next
+    
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

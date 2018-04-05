@@ -14,7 +14,8 @@ require('dotenv').config();
 // Set up routes
 var index = require('./routes/index')(passport);
 var passport_config = require('./config/passport')(passport);
-var siteData = require('./routes/siteDataRoutes');
+var details = require('./routes/details');
+var whyUseUs = require('./routes/why-use-us');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,7 +51,8 @@ db.once('open', function callback () {
 });
 
 app.use('/', index);
-app.use('/sitedata', siteData);
+app.use('/why-use-us', whyUseUs);
+app.use('/details', details);
 app.use('/controllers', express.static(process.cwd() + '/controllers'));
 
 

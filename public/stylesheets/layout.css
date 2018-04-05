@@ -1,16 +1,14 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: grid;
+  grid-gap: 10px;
+  justify-items: center;
 }
 
 a {
   color: #00B7FF;
 }
-
-label {
-    padding-right: 10px;
-}
-
 
 button {
     margin: 10px;
@@ -18,4 +16,8 @@ button {
 
 .logo-img {
     max-width: 70%;
+}
+
+.btn {
+
 }

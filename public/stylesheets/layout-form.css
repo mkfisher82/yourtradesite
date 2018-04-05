@@ -70,26 +70,9 @@ body {
     grid-auto-flow: column;
 
 }
-.btn {
-    border-radius: 5px;
-    margin: 5px;
-    padding: 8px;
+#btn-next {
     color: white;
     background-color: #ac3c18;
-
-}
-
-#btn-preview {
-    background-color: blue;
-}
-
-#btn-save {
-    background-color: red;
-}
-
-input {
-    display: block;
-    margin: 6px 0;
 }
 
 .service-feature-form {

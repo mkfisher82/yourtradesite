@@ -19,7 +19,7 @@ exports.client_form_get = [
             if (err) {return next(err); }
             console.log(client_data);
             // Render form with existing client data
-            res.render('forms/clientForm', { title: 'Client Input Form', client: client_data } );
+            res.render('forms/details/clientForm', { title: 'Client Input Form', client: client_data } );
         })
     }
 ]
@@ -63,7 +63,7 @@ exports.client_form_post = [
         console.log('Created siteData');
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values and error messages
-            res.render('forms/clientForm',
+            res.render('forms/details/clientForm',
             {
                 title: 'Client Input Form',
                 client: siteData,
@@ -81,7 +81,7 @@ exports.client_form_post = [
                 SiteData.findByIdAndUpdate(req.session.passport.user, siteData, {upsert: true}, function (err) {
                     if (err) { return next(err); }
                         // Succesful - go to business form
-                        res.redirect('/sitedata/business/');
+                        res.redirect('/details/business/');
                     }
                 );
             }
@@ -99,7 +99,7 @@ exports.business_form_get = [
         .exec(function(err, client_data) {
             if (err) {return next(err); }
             // Render form with existing client data
-            res.render('forms/businessForm', { title: 'Business Input Form', client: client_data } );
+            res.render('forms/details/businessForm', { title: 'Business Input Form', client: client_data } );
         })
     }
 ]
@@ -146,7 +146,7 @@ exports.business_form_post = [
         console.log('Created siteData');
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values and error messages
-            res.render('forms/businessForm',
+            res.render('forms/details/businessForm',
             {
                 title: 'Business Input Form',
                 client: siteData,
@@ -164,7 +164,7 @@ exports.business_form_post = [
                 SiteData.findByIdAndUpdate(req.session.passport.user, siteData, {upsert: true}, function (err) {
                     if (err) { return next(err); }
                         // Succesful - go to service features form
-                        res.redirect('/sitedata/contact');
+                        res.redirect('/details/contact');
                     }
                 );
             }
