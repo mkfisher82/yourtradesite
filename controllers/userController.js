@@ -1,4 +1,5 @@
 var SiteData = require('../models/siteDataModel');
+var data = require('../locals/data');
 
 var mongoose = require('mongoose');
 var fs = require('fs');
@@ -76,4 +77,11 @@ exports.publish_get = function(req, res, next) {
         console.log("No id in request")
         res.end();
     }
+}
+
+
+exports.data_get = function(req, res, next) {
+    data.client_details.client_nick_name = "Poncho";
+    res.send(data.client_details.client_first_name);
+
 }

@@ -1,4 +1,5 @@
 var SiteData = require('../models/siteDataModel');
+var Trade = require('../models/tradeModel')
 var mongoose = require('mongoose');
 var ServiceFeature = require('../models/serviceFeatureModel');
 var common_passport = require('../common/common');
@@ -11,16 +12,24 @@ const { sanitizeBody } = require('express-validator/filter');
 exports.client_form_get = [
     common_passport.isAuthenticated,
 
-
     // findById to get fields
-    function(req, res, next) {
-        SiteData.findById(req.session.passport.user)
-        .exec(function(err, client_data) {
-            if (err) {return next(err); }
-            console.log(client_data);
-            // Render form with existing client data
-            res.render('forms/details/clientForm', { title: 'Client Input Form', client: client_data } );
+    async function(req, res, next) {
+
+        let getClientData = new Promise ((resolve, reject) => {
+
+            SiteData.findById(req.session.passport.user)
+            .exec(function(err, data) {
+                if (err) {return next(err); }
+                console.log(data);
+                resolve (data);
+            })
+
         })
+
+        const client_data = await getClientData;
+
+        // Render form with existing client data
+        res.render('forms/details/clientForm', { title: 'Client Input Form', client: client_data } );
     }
 ]
 
@@ -94,14 +103,37 @@ exports.business_form_get = [
     common_passport.isAuthenticated,
 
     // findById to get fields
-    function(req, res, next) {
-        SiteData.findById(req.session.passport.user)
-        .exec(function(err, client_data) {
-            if (err) {return next(err); }
-            // Render form with existing client data
-            res.render('forms/details/businessForm', { title: 'Business Input Form', client: client_data } );
+    async function(req, res, next) {
+
+        let getClientData = new Promise ((resolve, reject) => {
+
+            SiteData.findById(req.session.passport.user)
+            .exec(function(err, data) {
+                if (err) {return next(err); }
+                resolve (data);
+            })
+
         })
+
+        let getTrades = new Promise ((resolve, reject) => {
+
+            Trade.find({})
+            .select({name: 1, _id: 0})
+            .exec(function(err, trades) {
+                if (err) {return next(err); }
+                resolve (trades);
+            })
+
+        })
+
+        const client_data = await getClientData;
+
+        const tradesList = await getTrades;
+
+        // Render form with existing client data
+        res.render('forms/details/businessForm', { title: 'Business Details Input Form', client: client_data, trade: tradesList } );
     }
+
 ]
 
 exports.business_form_post = [
@@ -191,7 +223,7 @@ exports.contact_form_get = [
     // render page
     function(req, res, next) {
         // Render form with existing client data
-        res.render('forms/contactForm', { title: 'Contact Details Input Form', client: req.body.client_data } );
+        res.render('forms/details/contactForm', { title: 'Contact Details Input Form', client: req.body.client_data } );
     }
 
 ]

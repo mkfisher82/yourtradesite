@@ -26,10 +26,9 @@ block content
             div.form-group
                 label(for='trade') Trade:
                 select.form-control(name='trade', value=(undefined===client ? '' : client.business_details.trade)) // TODO display from db. Pass in from controller
-                    option Builder
-                    option Plumber
-                    option Roofer
-                    option Electrician
+                    each val in trade
+                        option= val.name
+            
                     
             div.form-group    
                 label(for='years_in_trade') Years in trade:

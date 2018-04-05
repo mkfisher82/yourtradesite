@@ -9,7 +9,6 @@ var common_passport = require('../common/common');
 
 module.exports = function(passport) {
     router.get('/', common_passport.isAuthenticated, function(req, res, next) {
-        console.log(req.session),
         res.render('index', { title: 'Express' });
     });
 
@@ -47,6 +46,7 @@ module.exports = function(passport) {
         res.redirect('/');
     })
 
+    router.get('/getlocaldata', user_controller.data_get );
 
 	return router;
 }
